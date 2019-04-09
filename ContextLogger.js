@@ -56,7 +56,7 @@ class ContextLogger
     log () {
         const args = Array.prototype.slice.call(arguments);
         args.push(`(logger context = ${JSON.stringify(activeContext)})`);
-        console.log.apply(console.log, args);
+        console.log.apply(console, args);
     }
 }
 

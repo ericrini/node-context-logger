@@ -11,9 +11,12 @@ The solution involves using the node.js hooks API.
 
 **Expected Output**
 
+Note that the exact order of the logs will likely vary each time it is run.
+
 ```console
 root log (logger context = {"requestId":"???"})
-begin (logger context = {"requestId":"A"})
+beginning (logger context = {"requestId":"A"})
+middle (logger context = {"requestId":"A"})
 end (logger context = {"requestId":"A"})
 begin (logger context = {"requestId":"B"})
 database call 1 (logger context = {"requestId":"B","transactionId":"tx-1"})
@@ -21,5 +24,5 @@ database call 2 (logger context = {"requestId":"B","transactionId":"tx-1"})
 end (logger context = {"requestId":"B","transactionId":"tx-1"})
 promise beginning (logger context = {"requestId":"C","key":"value-1"})
 promise middle (logger context = {"requestId":"C","key":"value-2"})
-promise end (logger context = {"requestId":"???"})
+promise end (logger context = {"requestId":"C","key":"value-1"})
 ```
