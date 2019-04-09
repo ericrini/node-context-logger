@@ -8,32 +8,40 @@ const logger = new ContextLogger();
   
     logger.beginScope(async function (logger) {
       logger.setProperty("requestId", "A");
-      logger.setProperty("transactionId", 1);
-      logger.logInfo("Request to GET /something recieved.");
+      logger.logInfo("Beginning...");
   
       await Promise.resolve().then(function () {
-        logger.setProperty("transactionId", 2);
-        logger.logInfo("SELECT * FROM table;");
+        logger.logInfo("Middle...");
       });
   
-      logger.logInfo("HTTP 200 response sent.");
+      logger.logInfo("End...");
     });
   
     logger.beginScope(async function (logger) {
       logger.setProperty("requestId", "B");
-      logger.setProperty("transactionId", 1);
+      
       logger.logInfo("Request to GET /something recieved.");
   
       await logger.beginScope(async function (logger) {
+        await Promise.resolve().then(async function () {
+          logger.setProperty("transactionId", 1);
+          logger.logInfo("SELECT * FROM table1;");
+
+          await Promise.resolve().then(function () {
+            logger.setProperty("transactionId", 1);
+            logger.logInfo("SELECT * FROM table2;");
+          });
+        });
+      });
+
+      await logger.beginScope(async function (logger) {
         await Promise.resolve().then(function () {
           logger.setProperty("transactionId", 2);
-          logger.logInfo("SELECT * FROM table;");
+          logger.logInfo("SELECT * FROM table3;");
         });
-      })
+      });
   
       logger.logInfo("HTTP 200 response sent.");
     });
-
-    logger.logInfo("server down");
   });
 })();
