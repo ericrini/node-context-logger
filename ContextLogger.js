@@ -18,8 +18,8 @@ const hook = asyncHooks.createHook({
         const clone = JSON.parse(JSON.stringify(allContexts[triggerAsyncId]));
 
         // This is purely for demo/debug purposes.
-        clone.asyncId = asyncId;
-        clone.triggerAsyncId = triggerAsyncId;
+        // clone.asyncId = asyncId;
+        // clone.triggerAsyncId = triggerAsyncId;
 
         allContexts[asyncId] = clone;
     },
@@ -27,10 +27,6 @@ const hook = asyncHooks.createHook({
     // Each time a call stack joins the user thread, set its context active.
     before: (asyncId) => {
         activeContext = allContexts[asyncId];
-    },
-
-    after: (asyncId) => {
-        activeContext
     },
 
     // Each time a call stack completes, free the memory its context was using.
