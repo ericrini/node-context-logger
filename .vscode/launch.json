@@ -17,18 +17,6 @@
             ],
             "port": 9229,
             "console": "integratedTerminal"
-        },
-        {
-            "name": "Performance",
-            "type": "node",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "runtimeExecutable": "node",
-            "runtimeArgs": [
-                "--nolazy",
-                "performance.js"
-            ],
-            "console": "integratedTerminal"
         }
     ]
 }
