@@ -1,5 +1,4 @@
-const ContextLogger = require('./ContextLogger');
-const logger = new ContextLogger();
+const logger = require('./Logger');
 
 (async function () {
   await logger.beginScope(function (logger) {
