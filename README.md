@@ -3,8 +3,9 @@
 This is an example of a logger that:
 
 1. Is a singleton.
-1. Isolates each call stack so that it is affiliated with a logging context.
+1. Isolates each call stack so that it is affiliated with its own log context.
 1. Transparently includes the log context each time a message is logged.
+1. Can mutate the log context at any time and transparently pass those mutations to subsequent calls.
 1. Never requires business logic to handle the log context directly as a method parameter.
 
 The solution involves using the node.js hooks API.
