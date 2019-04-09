@@ -1,24 +1,25 @@
 **Problem Definition**
 
-Is it possible to create a logger with the following constraints:
+This is an example of a logger that:
 
-1. The logger object is a singleton.
-1. Every call to the logger automatically includes a log context.
-1. The log context is isolated such that each call stack has it's own independent context.
-1. The log context can be mutated during the call stacks execution.
-1. The log context (or an object wrapping the log context) is never passed directly as method parameter. It is completely ambient for a given call stack.
+1. Is a singleton.
+1. Isolates each call stack so that it is affiliated with a logging context.
+1. Transparently includes the correct logging context each time a message is logged.
+1. Never requires user core to pass the log context as a method parameter.
 
-The solution involves using the node.js hooks API and taking advantage of the fact that all user code in node.js joins back into a single thread.
+The solution involves using the node.js hooks API.
 
-Expected Output
+**Expected Output**
 
 ```console
-begin (logger context = {"asyncId":4,"triggerAsyncId":1,"requestId":"A"})
-begin (logger context = {"asyncId":6,"triggerAsyncId":1,"requestId":"B"})
-begin (logger context = {"asyncId":7,"triggerAsyncId":1,"requestId":"C"})
-end (logger context = {"asyncId":9,"triggerAsyncId":4,"requestId":"A"})
-end (logger context = {"asyncId":11,"triggerAsyncId":6,"requestId":"B"})
-database call 1 (logger context = {"asyncId":13,"triggerAsyncId":7,"requestId":"C"})
-database call 2 (logger context = {"asyncId":17,"triggerAsyncId":13,"requestId":"C"})
-end (logger context = {"asyncId":19,"triggerAsyncId":17,"requestId":"C"})
+root log (logger context = {"requestId":"???"})
+begin (logger context = {"requestId":"A"})
+end (logger context = {"requestId":"A"})
+begin (logger context = {"requestId":"B"})
+database call 1 (logger context = {"requestId":"B","transactionId":"tx-1"})
+database call 2 (logger context = {"requestId":"B","transactionId":"tx-1"})
+end (logger context = {"requestId":"B","transactionId":"tx-1"})
+promise beginning (logger context = {"requestId":"C","key":"value-1"})
+promise middle (logger context = {"requestId":"C","key":"value-2"})
+promise end (logger context = {"requestId":"???"})
 ```
