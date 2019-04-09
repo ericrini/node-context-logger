@@ -9,13 +9,11 @@ logger.log("root log");
 // Create call stack "A". Think of this as an incoming request.
 setTimeout(function () {
   logger.set("requestId", "A");
-  logger.log("beginning");
+  logger.log("begn");
 
   setTimeout(function () {
-    logger.log("middle");
+    logger.log("end");
   }, 0);
-  
-  logger.log("end");
 }, 0);
 
 // Create call stack "B". Think of this as an incoming request.
@@ -43,14 +41,18 @@ setTimeout(function () {
   await Promise.resolve().then(async function () {
     logger.set("requestId", "C");
     logger.set("key", "value-1");
-    logger.log("promise beginning");
+    logger.log("begin");
 
-    await Promise.resolve().then(function () {
+    await Promise.resolve().then(async function () {
       logger.set("key", "value-2");
-      logger.log("promise middle");
+      logger.log("middle 1");
+
+      await Promise.resolve().then(function () {
+        logger.log("middle 2");
+      });
     });
 
     // For some reason this one doesn't work? :(
-    logger.log("promise end");
+    logger.log("end");
   });
 })();
