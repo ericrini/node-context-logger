@@ -58,6 +58,15 @@ class ContextLogger
         args.push(`(logger context = ${JSON.stringify(activeContext)})`);
         console.log.apply(console, args);
     }
+
+    toggleScope (value) {
+        if (value) {
+            hook.enable();
+        }
+        else {
+            hook.disable();
+        }
+    }
 }
 
 module.exports = ContextLogger;

@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch via npm",
+            "name": "Demo",
             "type": "node",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -16,6 +16,18 @@
                 "app.js"
             ],
             "port": 9229,
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Performance",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "node",
+            "runtimeArgs": [
+                "--nolazy",
+                "performance.js"
+            ],
             "console": "integratedTerminal"
         }
     ]

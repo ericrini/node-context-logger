@@ -52,7 +52,6 @@ setTimeout(function () {
       });
     });
 
-    // For some reason this one doesn't work? :(
     logger.log("end");
   });
 })();
