@@ -1,12 +1,4 @@
-class RootLogger {
-    beginScope(callback) {
-        if (callback) {
-            callback(new ChildLogger({}));
-        }
-    }
-}
-
-class ChildLogger {
+class Logger {
     constructor (scope) {
         this._scope = scope;
     }
@@ -37,12 +29,16 @@ class ChildLogger {
         console.log.apply(console, args);
     }
 
-    async beginScope(callback) {
-        if (callback) {
+    beginScopeSync(action) {
+        if (action) {
             const clone = JSON.parse(JSON.stringify(this._scope));
-            await callback(new ChildLogger(clone));
+            return action(new Logger(clone));
         }
+    }
+
+    async beginScope(action) {
+        return await this.beginScopeSync(action);
     }
 }
 
-module.exports = RootLogger;
+module.exports = new Logger({});
