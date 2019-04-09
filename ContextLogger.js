@@ -15,11 +15,12 @@ const hook = asyncHooks.createHook({
     init: (asyncId, type, triggerAsyncId, resource) => {
 
         // This is tricksy, but we need to break the references between objects.
-        const clone = JSON.parse(JSON.stringify(allContexts[triggerAsyncId]));
+        const clone = JSON.parse(JSON.stringify(allContexts[asyncHooks.executionAsyncId()]));
 
         // This is purely for demo/debug purposes.
         // clone.asyncId = asyncId;
         // clone.triggerAsyncId = triggerAsyncId;
+        // clone.executionAsyncId = asyncHooks.executionAsyncId();
 
         allContexts[asyncId] = clone;
     },

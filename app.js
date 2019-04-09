@@ -9,11 +9,13 @@ logger.log("root log");
 // Create call stack "A". Think of this as an incoming request.
 setTimeout(function () {
   logger.set("requestId", "A");
-  logger.log("begin");
+  logger.log("beginning");
 
   setTimeout(function () {
-    logger.log("end");
+    logger.log("middle");
   }, 0);
+  
+  logger.log("end");
 }, 0);
 
 // Create call stack "B". Think of this as an incoming request.
